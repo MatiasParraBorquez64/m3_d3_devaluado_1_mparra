@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+
+        function esNombreUsuarioValido(nombre) {
+            return /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(nombre);
+        }
+
+        function esNumeroEnteroPositivo(valor) {
+            return Number.isInteger(valor) && valor > 0;
+        }
+
+        function obtenerSeleccionPC() {
+            let opciones = ["Piedra", "Papel", "Tijera"];
+            return opciones[Math.floor(Math.random() * opciones.length)];
+        }
+
+        let nombreUsuario;
+        do {
+            nombreUsuario = prompt("Indica tu nombre:");
+            if (!esNombreUsuarioValido(nombreUsuario)) {
+                alert("Por favor colocar un nombre de jugador válido.");
+            }
+        } while (!esNombreUsuarioValido(nombreUsuario));
+
+        let cantidadRondas;
+        do {
+            cantidadRondas = prompt("Indica la cantidad de Jugadas que desees:");
+            cantidadRondas = parseInt(cantidadRondas);
+            if (!esNumeroEnteroPositivo(cantidadRondas)) {
+                alert("Debe de ingresar un número entero positivo de rondas para jugar.");
+            }
+        } while (!esNumeroEnteroPositivo(cantidadRondas));
+
+        let ganadorUsuario = 0;
+        let ganadorPC = 0;
+
+        for (let ronda = 1; ronda <= cantidadRondas; ronda++) {
+            let seleccionUsuario;
+            do {
+                seleccionUsuario = prompt("Ronda " + ronda + ": Indica tu selección (Piedra, Papel, Tijera):");
+                if (!["Piedra", "Papel", "Tijera"].includes(seleccionUsuario)) {
+                    alert("Elegir una selección válida para la ronda " + ronda);
+                }
+            } while (!["Piedra", "Papel", "Tijera"].includes(seleccionUsuario));
+
+            let seleccionPC = obtenerSeleccionPC();
+
+            let resultadoRonda;
+            if (
+                (seleccionUsuario === "Piedra" && seleccionPC === "Tijera") ||
+                (seleccionUsuario === "Tijera" && seleccionPC === "Papel") ||
+                (seleccionUsuario === "Papel" && seleccionPC === "Piedra")
+            ) {
+                resultadoRonda = "Ganaste";
+                ganadorUsuario++;
+            } else if (
+                (seleccionPC === "Piedra" && seleccionUsuario === "Tijera") ||
+                (seleccionPC === "Tijera" && seleccionUsuario === "Papel") ||
+                (seleccionPC === "Papel" && seleccionUsuario === "Piedra")
+            ) {
+                resultadoRonda = "Perdiste";
+                ganadorPC++;
+            } else {
+                resultadoRonda = "Empate";
+            }
+
+            alert("Resultado de la Ronda " + ronda + ":\n" +
+                "Tu selección: " + seleccionUsuario + "\n" +
+                "Selección del PC: " + seleccionPC + "\n" +
+                "Resultado: " + resultadoRonda);
+        }
+
+        let resultadoFinal;
+        if (ganadorUsuario > ganadorPC) {
+            resultadoFinal = "Ganador: " + nombreUsuario + ", " + ganadorUsuario + " jugadas ganadas";
+        } else if (ganadorUsuario < ganadorPC) {
+            resultadoFinal = "Ganador: PC, " + ganadorPC + " jugadas ganadas";
+        } else {
+            resultadoFinal = "Empate";
+        }
+
+        alert("Resultados del juego cachipun:\n" + resultadoFinal);
+
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>
